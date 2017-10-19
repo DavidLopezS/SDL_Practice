@@ -2,6 +2,8 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
+#include <time.h>
+#include <iostream>
 
 //Game general information
 #define SCREEN_WIDTH 800
@@ -80,6 +82,11 @@ int main(int, char*[]) {
 	if (!soundtrack) throw "JAjajajaja LOL";
 	Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 	Mix_PlayMusic(soundtrack, -1);
+	// --- TIME ---
+	clock_t lastTime = clock();
+	float timeDown = 10.f;
+	float deltaTime = 0.f;
+
 	// --- GAME LOOP ---
 	SDL_Event event;
 	bool isRunning = true;
@@ -115,6 +122,11 @@ int main(int, char*[]) {
 			}
 		}
 
+		deltaTime = (clock() - lastTime);
+		lastTime = clock();
+		deltaTime /= CLOCKS_PER_SEC;
+		timeDown -= deltaTime;
+		std::cout << timeDown << std::endl;
 		// DRAW
 			//Background
 		SDL_RenderClear(renderer);
