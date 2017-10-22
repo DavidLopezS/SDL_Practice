@@ -36,13 +36,13 @@ int main(int, char*[]) {
 	if (bgTexture == nullptr) throw "No s'ha pogut crear les textures";
 	SDL_Rect bgRect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
-	/*SDL_Texture *playerTexture{ IMG_LoadTexture(renderer, "../res/img/Kintoun.png") };
+	SDL_Texture *playerTexture{ IMG_LoadTexture(renderer, "../res/img/Kintoun.png") };
 	if(playerTexture == nullptr) throw "No s'ha pogut crear les textures";
 	
 	SDL_Rect playerRect{ 0, 0, 350/2, 189/2 };
-	SDL_Rect playerTarget{ 0, 0, 100, 100 };*/
+	SDL_Rect playerTarget{ 0, 0, 100, 100 };
 		// --- Animated Sprite ---
-	SDL_Texture *playerTexture{ IMG_LoadTexture(renderer, "../res/img/sp01.png") };
+	/*SDL_Texture *playerTexture{ IMG_LoadTexture(renderer, "../res/img/sp01.png") };
 	SDL_Rect playerRect, playerPosition;
 	int textWidth, textHeight, frameWidth, frameHeight;
 	SDL_QueryTexture(playerTexture, NULL, NULL, &textWidth, &textHeight);
@@ -52,7 +52,7 @@ int main(int, char*[]) {
 	playerRect.x = playerRect.y = 0;
 	playerPosition.h = playerRect.h = frameHeight;
 	playerPosition.w = playerRect.w = frameWidth;
-	int frameTime = 0;
+	int frameTime = 0;*/
 	// --- TEXT ---
 	TTF_Font *font{ TTF_OpenFont("../res/ttf/saiyan.ttf", 80) };
 	if (font == nullptr) throw "No es pot inicialitzar the TTF_Font";
@@ -60,17 +60,17 @@ int main(int, char*[]) {
 	Uint8 colorA = 255;
 	Uint8 colorB = 150;
 	Uint8 colorC = 0;
-	Uint8 colorD = 100;
-	SDL_Surface *tmpSurf{ TTF_RenderText_Blended(font, "Play Music", SDL_Color{255, 150, 0, 255}) };
+	Uint8 colorD = 150;
+	SDL_Surface *tmpSurf{ TTF_RenderText_Blended(font, "Play", SDL_Color{ colorA, colorB, 0, 255}) };
 	if (tmpSurf == nullptr) throw "UNable to exist XD jajajaja LOL";
 	SDL_Texture *textTexture{ SDL_CreateTextureFromSurface(renderer, tmpSurf) };
-	SDL_Rect textRect{ 250, 100, tmpSurf->w, tmpSurf->h };
+	SDL_Rect textRect{ 350, 100, tmpSurf->w, tmpSurf->h };
 	SDL_FreeSurface(tmpSurf);
 
-	SDL_Surface *tmpSurf2{ TTF_RenderText_Blended(font, "Stop Music", SDL_Color{ 0, 150, 0, 255 }) };
+	SDL_Surface *tmpSurf2{ TTF_RenderText_Blended(font, "Quit", SDL_Color{ colorC, colorD, 0, 255 }) };
 	if (tmpSurf2 == nullptr) throw "UNable to exist XD jajajaja LOL";
 	SDL_Texture *textTexture2{ SDL_CreateTextureFromSurface(renderer, tmpSurf2) };
-	SDL_Rect textRect2{ 250, 250, tmpSurf2->w, tmpSurf2->h };
+	SDL_Rect textRect2{ 350, 250, tmpSurf2->w, tmpSurf2->h };
 	SDL_FreeSurface(tmpSurf2);
 
 	TTF_CloseFont(font);
@@ -98,44 +98,51 @@ int main(int, char*[]) {
 			case SDL_QUIT:		isRunning = false; break;
 			case SDL_KEYDOWN:	if (event.key.keysym.sym == SDLK_ESCAPE) isRunning = false; break;
 			case SDL_MOUSEMOTION:
-				/*playerTarget.x = event.motion.x - 50; 
-				playerTarget.y = event.motion.y - 50;*/
+				playerTarget.x = event.motion.x - 50; 
+				playerTarget.y = event.motion.y - 50;
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				if (event.button.button == SDL_BUTTON_LEFT) {
 					click = true;
 				}
 				break;
+			case SDL_MOUSEBUTTONUP:
+				click = false;
+				break;
 			default:;
 			}
 		}
 
 		// UPDATE
-		/*playerRect.x += (playerTarget.x - playerRect.x) / 10;
-		playerRect.y += (playerTarget.y - playerRect.y) / 10;*/
-		frameTime++;
+		playerRect.x += (playerTarget.x - playerRect.x) / 10;
+		playerRect.y += (playerTarget.y - playerRect.y) / 10;
+		/*frameTime++;
 		if (FPS / frameTime <= 9) {
 			frameTime = 0;
 			playerRect.x += frameWidth;
 			if (playerRect.x >= textWidth) {
 				playerRect.x = 0;
 			}
-		}
+		}*/
 
 		deltaTime = (clock() - lastTime);
 		lastTime = clock();
 		deltaTime /= CLOCKS_PER_SEC;
 		timeDown -= deltaTime;
-		std::cout << timeDown << std::endl;
+		//std::cout << timeDown << std::endl;
+		if (click == true) {
+			std::cout << "TRUE" << std::endl;
+		}
+
 		// DRAW
 			//Background
 		SDL_RenderClear(renderer);
 		SDL_RenderCopy(renderer, bgTexture, nullptr, &bgRect);
 		SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
 		SDL_RenderCopy(renderer, textTexture2, nullptr, &textRect2);
-		//SDL_RenderCopy(renderer, playerTexture, nullptr, &playerRect);
+		SDL_RenderCopy(renderer, playerTexture, nullptr, &playerRect);
 			//Animated Sprite
-		SDL_RenderCopy(renderer, playerTexture, &playerRect, &playerPosition);
+		//SDL_RenderCopy(renderer, playerTexture, &playerRect, &playerPosition);
 		SDL_RenderPresent(renderer);
 
 	}
