@@ -10,6 +10,17 @@
 #define SCREEN_HEIGHT 600
 #define FPS 60
 
+int posX, posY;
+
+bool isInPlace(int x, int y, SDL_Rect theRect) {
+	if (x > theRect.x && y > theRect.y && x < theRect.x + theRect.w && y < theRect.y + theRect.h) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 int main(int, char*[]) {
 
 	// --- INIT ---
@@ -32,16 +43,37 @@ int main(int, char*[]) {
 	if (renderer == nullptr) throw "No es pot inicialitzar SDL_Renderer";
 
 	// --- SPRITES ---
+	//bg1
 	SDL_Texture *bgTexture{ IMG_LoadTexture(renderer, "../res/img/bg.jpg") };
 	if (bgTexture == nullptr) throw "No s'ha pogut crear les textures";
 	SDL_Rect bgRect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
+	//Bg2
+	SDL_Texture *bgTexture2{ IMG_LoadTexture(renderer, "../res/img/bgCastle.jpg") };
+	if (bgTexture2 == nullptr) throw "No s'ha pogut crear les textures";
+	SDL_Rect bgRect2{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	
+	//Kinton
 	SDL_Texture *playerTexture{ IMG_LoadTexture(renderer, "../res/img/Kintoun.png") };
 	if(playerTexture == nullptr) throw "No s'ha pogut crear les textures";
 	
 	SDL_Rect playerRect{ 0, 0, 350/2, 189/2 };
 	SDL_Rect playerTarget{ 0, 0, 100, 100 };
+
+
 		// --- Animated Sprite ---
+		//Castle Character
+	SDL_Texture *playerTexture2{ IMG_LoadTexture(renderer, "../res/img/sp01.png") };
+	SDL_Rect playerRect2, playerPosition2;
+	int textWidth, textHeight, frameWidth, frameHeight;
+	SDL_QueryTexture(playerTexture, NULL, NULL, &textWidth, &textHeight);
+	frameWidth = textWidth / 6;
+	frameHeight = textHeight / 1;
+	playerPosition2.x = playerPosition2.y = 0;
+	playerRect2.y = playerRect2.y = 0;
+	playerPosition2.h = playerRect2.h = frameHeight;
+	playerPosition2.w = playerPosition2.w = frameWidth;
+	int frameTime = 0;
 	/*SDL_Texture *playerTexture{ IMG_LoadTexture(renderer, "../res/img/sp01.png") };
 	SDL_Rect playerRect, playerPosition;
 	int textWidth, textHeight, frameWidth, frameHeight;
@@ -91,6 +123,7 @@ int main(int, char*[]) {
 	SDL_Event event;
 	bool isRunning = true;
 	bool click = false;
+	bool currScene = true;
 	while (isRunning){
 		// HANDLE EVENTS
 		while (SDL_PollEvent(&event)) {
@@ -100,6 +133,8 @@ int main(int, char*[]) {
 			case SDL_MOUSEMOTION:
 				playerTarget.x = event.motion.x - 50; 
 				playerTarget.y = event.motion.y - 50;
+				posX = event.motion.x;
+				posY = event.motion.y;
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				if (event.button.button == SDL_BUTTON_LEFT) {
@@ -112,46 +147,63 @@ int main(int, char*[]) {
 			default:;
 			}
 		}
-
+		bool isTherePlay = isInPlace(posX, posY, textRect);
+		bool isThereExits = isInPlace(posX, posY, textRect2);
 		// UPDATE
 		playerRect.x += (playerTarget.x - playerRect.x) / 10;
 		playerRect.y += (playerTarget.y - playerRect.y) / 10;
-		/*frameTime++;
+		frameTime++;
 		if (FPS / frameTime <= 9) {
 			frameTime = 0;
-			playerRect.x += frameWidth;
-			if (playerRect.x >= textWidth) {
-				playerRect.x = 0;
+			playerRect2.x += frameWidth;
+			if (playerRect2.x >= textWidth) {
+				playerRect2.x = 0;
 			}
-		}*/
+		}
 
 		deltaTime = (clock() - lastTime);
 		lastTime = clock();
 		deltaTime /= CLOCKS_PER_SEC;
 		timeDown -= deltaTime;
 		//std::cout << timeDown << std::endl;
-		if (click == true) {
-			std::cout << "TRUE" << std::endl;
+		if (isTherePlay == true && click == true){
+			currScene = false;
 		}
-
+		if (isThereExits == true && click == true) {
+			isRunning = false;
+		}
 		// DRAW
 			//Background
-		SDL_RenderClear(renderer);
-		SDL_RenderCopy(renderer, bgTexture, nullptr, &bgRect);
-		SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
-		SDL_RenderCopy(renderer, textTexture2, nullptr, &textRect2);
-		SDL_RenderCopy(renderer, playerTexture, nullptr, &playerRect);
+		if (currScene == true) {
+			SDL_RenderClear(renderer);
+			SDL_RenderCopy(renderer, bgTexture, nullptr, &bgRect);
+			SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
+			SDL_RenderCopy(renderer, textTexture2, nullptr, &textRect2);
+			SDL_RenderCopy(renderer, playerTexture, nullptr, &playerRect);
 			//Animated Sprite
 		//SDL_RenderCopy(renderer, playerTexture, &playerRect, &playerPosition);
-		SDL_RenderPresent(renderer);
-
+			SDL_RenderPresent(renderer);
+		}
+		if (currScene == false) {
+			SDL_RenderClear(renderer);
+			SDL_RenderCopy(renderer, bgTexture2, nullptr, &bgRect2);
+			//Animated Sprite
+			SDL_RenderCopy(renderer, playerTexture2, &playerRect2, &playerPosition2);
+			SDL_RenderPresent(renderer);
+		} 
 	}
 
 	// --- DESTROY ---
-	SDL_DestroyTexture(bgTexture);
-	SDL_DestroyTexture(playerTexture);
-	SDL_DestroyTexture(textTexture);
-	SDL_DestroyTexture(textTexture2);
+	if (currScene == true) {
+		SDL_DestroyTexture(bgTexture);
+		SDL_DestroyTexture(playerTexture);
+		SDL_DestroyTexture(textTexture);
+		SDL_DestroyTexture(textTexture2);
+	}
+	if (currScene == false) {
+		SDL_DestroyTexture(bgTexture2);
+		SDL_DestroyTexture(playerTexture2);
+	}
 	Mix_CloseAudio();
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
