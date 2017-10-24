@@ -54,27 +54,17 @@ int main(int, char*[]) {
 	SDL_Rect bgRect2{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	
 	//Kinton
-	SDL_Texture *playerTexture{ IMG_LoadTexture(renderer, "../res/img/Kintoun.png") };
+	/*SDL_Texture *playerTexture{ IMG_LoadTexture(renderer, "../res/img/Kintoun.png") };
 	if(playerTexture == nullptr) throw "No s'ha pogut crear les textures";
 	
 	SDL_Rect playerRect{ 0, 0, 350/2, 189/2 };
 	SDL_Rect playerTarget{ 0, 0, 100, 100 };
-
+	*/
 
 		// --- Animated Sprite ---
 		//Castle Character
-	SDL_Texture *playerTexture2{ IMG_LoadTexture(renderer, "../res/img/sp01.png") };
-	SDL_Rect playerRect2, playerPosition2;
-	int textWidth, textHeight, frameWidth, frameHeight;
-	SDL_QueryTexture(playerTexture, NULL, NULL, &textWidth, &textHeight);
-	frameWidth = textWidth / 6;
-	frameHeight = textHeight / 1;
-	playerPosition2.x = playerPosition2.y = 0;
-	playerRect2.y = playerRect2.y = 0;
-	playerPosition2.h = playerRect2.h = frameHeight;
-	playerPosition2.w = playerPosition2.w = frameWidth;
-	int frameTime = 0;
-	/*SDL_Texture *playerTexture{ IMG_LoadTexture(renderer, "../res/img/sp01.png") };
+
+	SDL_Texture *playerTexture{ IMG_LoadTexture(renderer, "../res/img/spCastle.png") };
 	SDL_Rect playerRect, playerPosition;
 	int textWidth, textHeight, frameWidth, frameHeight;
 	SDL_QueryTexture(playerTexture, NULL, NULL, &textWidth, &textHeight);
@@ -84,7 +74,7 @@ int main(int, char*[]) {
 	playerRect.x = playerRect.y = 0;
 	playerPosition.h = playerRect.h = frameHeight;
 	playerPosition.w = playerRect.w = frameWidth;
-	int frameTime = 0;*/
+	int frameTime = 0;
 	// --- TEXT ---
 	TTF_Font *font{ TTF_OpenFont("../res/ttf/saiyan.ttf", 80) };
 	if (font == nullptr) throw "No es pot inicialitzar the TTF_Font";
@@ -131,8 +121,8 @@ int main(int, char*[]) {
 			case SDL_QUIT:		isRunning = false; break;
 			case SDL_KEYDOWN:	if (event.key.keysym.sym == SDLK_ESCAPE) isRunning = false; break;
 			case SDL_MOUSEMOTION:
-				playerTarget.x = event.motion.x - 50; 
-				playerTarget.y = event.motion.y - 50;
+				//playerTarget.x = event.motion.x - 50; 
+				//playerTarget.y = event.motion.y - 50;
 				posX = event.motion.x;
 				posY = event.motion.y;
 				break;
@@ -150,14 +140,14 @@ int main(int, char*[]) {
 		bool isTherePlay = isInPlace(posX, posY, textRect);
 		bool isThereExits = isInPlace(posX, posY, textRect2);
 		// UPDATE
-		playerRect.x += (playerTarget.x - playerRect.x) / 10;
-		playerRect.y += (playerTarget.y - playerRect.y) / 10;
+		//playerRect.x += (playerTarget.x - playerRect.x) / 10;
+		//playerRect.y += (playerTarget.y - playerRect.y) / 10;
 		frameTime++;
 		if (FPS / frameTime <= 9) {
 			frameTime = 0;
-			playerRect2.x += frameWidth;
-			if (playerRect2.x >= textWidth) {
-				playerRect2.x = 0;
+			playerRect.x += frameWidth;
+			if (playerRect.x >= textWidth) {
+				playerRect.x = 0;
 			}
 		}
 
@@ -179,7 +169,7 @@ int main(int, char*[]) {
 			SDL_RenderCopy(renderer, bgTexture, nullptr, &bgRect);
 			SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
 			SDL_RenderCopy(renderer, textTexture2, nullptr, &textRect2);
-			SDL_RenderCopy(renderer, playerTexture, nullptr, &playerRect);
+			//SDL_RenderCopy(renderer, playerTexture, nullptr, &playerRect);
 			//Animated Sprite
 		//SDL_RenderCopy(renderer, playerTexture, &playerRect, &playerPosition);
 			SDL_RenderPresent(renderer);
@@ -188,7 +178,7 @@ int main(int, char*[]) {
 			SDL_RenderClear(renderer);
 			SDL_RenderCopy(renderer, bgTexture2, nullptr, &bgRect2);
 			//Animated Sprite
-			SDL_RenderCopy(renderer, playerTexture2, &playerRect2, &playerPosition2);
+			SDL_RenderCopy(renderer, playerTexture, &playerRect, &playerPosition);
 			SDL_RenderPresent(renderer);
 		} 
 	}
@@ -202,7 +192,7 @@ int main(int, char*[]) {
 	}
 	if (currScene == false) {
 		SDL_DestroyTexture(bgTexture2);
-		SDL_DestroyTexture(playerTexture2);
+		SDL_DestroyTexture(playerTexture);
 	}
 	Mix_CloseAudio();
 	SDL_DestroyRenderer(renderer);
