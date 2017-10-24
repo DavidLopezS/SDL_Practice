@@ -124,18 +124,30 @@ int main(int, char*[]) {
 				if(event.key.keysym.sym == SDLK_DOWN){
 					playerRect.x = playerRect.y = 0;
 					playerPosition.y += 10;
+					if(playerPosition.y == 580){
+						playerPosition.y = 570;
+					}
 				}
 				if (event.key.keysym.sym == SDLK_LEFT) {
 					playerRect.x = playerRect.y = 32;
 					playerPosition.x -= 10;
+					if (playerPosition.x == -10) {
+						playerPosition.x = 0;
+					}
 				}
 				if (event.key.keysym.sym == SDLK_RIGHT) {
 					playerRect.x = playerRect.y = 64;
 					playerPosition.x += 10;
+					if (playerPosition.x == 780) {
+						playerPosition.x = 770;
+					}
 				}
 				if (event.key.keysym.sym == SDLK_UP) {
 					playerRect.x = playerRect.y = 96;
 					playerPosition.y -= 10;
+					if (playerPosition.y == 150) {
+						playerPosition.y = 160;
+					}
 				}
 				break;
 			case SDL_MOUSEMOTION:
