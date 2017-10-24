@@ -61,6 +61,30 @@ int main(int, char*[]) {
 	SDL_Rect playerTarget{ 0, 0, 100, 100 };
 	*/
 
+	SDL_Texture *cloudTexture{ IMG_LoadTexture(renderer, "../res/img/Kintoun.png") };
+	if (cloudTexture== nullptr) throw "No s'ha pogut crear les textures";
+
+	SDL_Rect cloudRect{ 2, 20, 350/4, 189/4 };
+
+	SDL_Texture *cloudTexture2{ IMG_LoadTexture(renderer, "../res/img/Kintoun.png") };
+	if (cloudTexture2 == nullptr) throw "No s'ha pogut crear les textures";
+
+	SDL_Rect cloudRect2{ 350, 100, 350/6, 189/6};
+
+	SDL_Texture *cloudTexture3{ IMG_LoadTexture(renderer, "../res/img/Kintoun.png") };
+	if (cloudTexture3 == nullptr) throw "No s'ha pogut crear les textures";
+
+	SDL_Rect cloudRect3{ 550, 40, 350 / 5, 189 / 5 };
+
+	SDL_Texture *cloudTexture4{ IMG_LoadTexture(renderer, "../res/img/Kintoun.png") };
+	if (cloudTexture4 == nullptr) throw "No s'ha pogut crear les textures";
+
+	SDL_Rect cloudRect4{ 450, 70, 350 / 8, 189 / 8 };
+
+	SDL_Texture *moneyTexture{ IMG_LoadTexture(renderer, "../res/img/gold.png") };
+	if (moneyTexture == nullptr) throw "This is no good";
+
+	SDL_Rect moneyRect{ 208, 470, 350 / 4, 189 / 4 };
 		// --- Animated Sprite ---
 		//Castle Character
 
@@ -207,6 +231,11 @@ int main(int, char*[]) {
 		if (currScene == false) {
 			SDL_RenderClear(renderer);
 			SDL_RenderCopy(renderer, bgTexture2, nullptr, &bgRect2);
+			SDL_RenderCopy(renderer, cloudTexture, nullptr, &cloudRect);
+			SDL_RenderCopy(renderer, cloudTexture2, nullptr, &cloudRect2);
+			SDL_RenderCopy(renderer, cloudTexture3, nullptr, &cloudRect3);
+			SDL_RenderCopy(renderer, cloudTexture4, nullptr, &cloudRect4);
+			SDL_RenderCopy(renderer, moneyTexture, nullptr, &moneyRect);
 			//Animated Sprite
 			SDL_RenderCopy(renderer, playerTexture, &playerRect, &playerPosition);
 			SDL_RenderPresent(renderer);
@@ -214,16 +243,17 @@ int main(int, char*[]) {
 	}
 
 	// --- DESTROY ---
-	if (currScene == true) {
-		SDL_DestroyTexture(bgTexture);
-		SDL_DestroyTexture(playerTexture);
-		SDL_DestroyTexture(textTexture);
-		SDL_DestroyTexture(textTexture2);
-	}
-	if (currScene == false) {
-		SDL_DestroyTexture(bgTexture2);
-		SDL_DestroyTexture(playerTexture);
-	}
+	SDL_DestroyTexture(bgTexture);
+	SDL_DestroyTexture(playerTexture);
+	SDL_DestroyTexture(textTexture);
+	SDL_DestroyTexture(textTexture2);
+	SDL_DestroyTexture(bgTexture2);
+	SDL_DestroyTexture(playerTexture);
+	SDL_DestroyTexture(cloudTexture);
+	SDL_DestroyTexture(cloudTexture2);
+	SDL_DestroyTexture(cloudTexture3);
+	SDL_DestroyTexture(cloudTexture4);
+	SDL_DestroyTexture(moneyTexture);
 	Mix_CloseAudio();
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
