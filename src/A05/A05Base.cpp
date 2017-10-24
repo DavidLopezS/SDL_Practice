@@ -68,9 +68,9 @@ int main(int, char*[]) {
 	SDL_Rect playerRect, playerPosition;
 	int textWidth, textHeight, frameWidth, frameHeight;
 	SDL_QueryTexture(playerTexture, NULL, NULL, &textWidth, &textHeight);
-	frameWidth = textWidth / 6;
-	frameHeight = textHeight / 1;
-	playerPosition.x = playerPosition.y = 0;
+	frameWidth = textWidth / 12;
+	frameHeight = textHeight / 8;
+	playerPosition.x = playerPosition.y = 200;
 	playerRect.x = playerRect.y = 0;
 	playerPosition.h = playerRect.h = frameHeight;
 	playerPosition.w = playerRect.w = frameWidth;
@@ -119,7 +119,10 @@ int main(int, char*[]) {
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_QUIT:		isRunning = false; break;
-			case SDL_KEYDOWN:	if (event.key.keysym.sym == SDLK_ESCAPE) isRunning = false; break;
+			case SDL_KEYDOWN:	
+				if (event.key.keysym.sym == SDLK_ESCAPE) isRunning = false; 
+				if(event.key.keysym.sym == SDLK_RIGHT){}
+				break;
 			case SDL_MOUSEMOTION:
 				//playerTarget.x = event.motion.x - 50; 
 				//playerTarget.y = event.motion.y - 50;
