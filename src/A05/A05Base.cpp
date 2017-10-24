@@ -71,7 +71,7 @@ int main(int, char*[]) {
 	frameWidth = textWidth / 12;
 	frameHeight = textHeight / 8;
 	playerPosition.x = playerPosition.y = 200;
-	playerRect.x = playerRect.y = 0;
+	playerRect.x = playerRect.y = 0;//32,64,96
 	playerPosition.h = playerRect.h = frameHeight;
 	playerPosition.w = playerRect.w = frameWidth;
 	int frameTime = 0;
@@ -121,7 +121,22 @@ int main(int, char*[]) {
 			case SDL_QUIT:		isRunning = false; break;
 			case SDL_KEYDOWN:	
 				if (event.key.keysym.sym == SDLK_ESCAPE) isRunning = false; 
-				if(event.key.keysym.sym == SDLK_RIGHT){}
+				if(event.key.keysym.sym == SDLK_DOWN){
+					playerRect.x = playerRect.y = 0;
+					playerPosition.y += 10;
+				}
+				if (event.key.keysym.sym == SDLK_LEFT) {
+					playerRect.x = playerRect.y = 32;
+					playerPosition.x -= 10;
+				}
+				if (event.key.keysym.sym == SDLK_RIGHT) {
+					playerRect.x = playerRect.y = 64;
+					playerPosition.x += 10;
+				}
+				if (event.key.keysym.sym == SDLK_UP) {
+					playerRect.x = playerRect.y = 96;
+					playerPosition.y -= 10;
+				}
 				break;
 			case SDL_MOUSEMOTION:
 				//playerTarget.x = event.motion.x - 50; 
