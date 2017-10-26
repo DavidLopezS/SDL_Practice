@@ -200,7 +200,7 @@ int main(int, char*[]) {
 		if (FPS / frameTime <= 9) {
 			frameTime = 0;
 			playerRect.x += frameWidth;
-			if (playerRect.x >= textWidth) {
+			if (playerRect.x >= textWidth/4) {
 				playerRect.x = 0;
 			}
 		}
