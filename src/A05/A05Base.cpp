@@ -61,25 +61,25 @@ int main(int, char*[]) {
 	SDL_Rect playerTarget{ 0, 0, 100, 100 };
 	*/
 
-	SDL_Texture *cloudTexture{ IMG_LoadTexture(renderer, "../res/img/Kintoun.png") };
+	SDL_Texture *cloudTexture{ IMG_LoadTexture(renderer, "../res/img/gold.png") };
 	if (cloudTexture== nullptr) throw "No s'ha pogut crear les textures";
 
-	SDL_Rect cloudRect{ 2, 20, 350/4, 189/4 };
+	SDL_Rect cloudRect{ 2, 500, 350/4, 189/4 };
 
-	SDL_Texture *cloudTexture2{ IMG_LoadTexture(renderer, "../res/img/Kintoun.png") };
+	SDL_Texture *cloudTexture2{ IMG_LoadTexture(renderer, "../res/img/gold.png") };
 	if (cloudTexture2 == nullptr) throw "No s'ha pogut crear les textures";
 
-	SDL_Rect cloudRect2{ 350, 100, 350/6, 189/6};
+	SDL_Rect cloudRect2{ 350, 400, 350/6, 189/6};
 
-	SDL_Texture *cloudTexture3{ IMG_LoadTexture(renderer, "../res/img/Kintoun.png") };
+	SDL_Texture *cloudTexture3{ IMG_LoadTexture(renderer, "../res/img/gold.png") };
 	if (cloudTexture3 == nullptr) throw "No s'ha pogut crear les textures";
 
-	SDL_Rect cloudRect3{ 550, 40, 350 / 5, 189 / 5 };
+	SDL_Rect cloudRect3{ 550, 300, 350 / 5, 189 / 5 };
 
-	SDL_Texture *cloudTexture4{ IMG_LoadTexture(renderer, "../res/img/Kintoun.png") };
+	SDL_Texture *cloudTexture4{ IMG_LoadTexture(renderer, "../res/img/gold.png") };
 	if (cloudTexture4 == nullptr) throw "No s'ha pogut crear les textures";
 
-	SDL_Rect cloudRect4{ 450, 70, 350 / 8, 189 / 8 };
+	SDL_Rect cloudRect4{ 450, 200, 350 / 8, 189 / 8 };
 
 	SDL_Texture *moneyTexture{ IMG_LoadTexture(renderer, "../res/img/gold.png") };
 	if (moneyTexture == nullptr) throw "This is no good";
